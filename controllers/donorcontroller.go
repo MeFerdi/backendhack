@@ -4,12 +4,13 @@ package controllers
 import (
 	"net/http"
 
-	"authorization/backend/initializers"
-	"authorization/backend/models"
+	"trial/initializers"
+	"trial/models"
 
 	"github.com/gin-gonic/gin"
 )
-//donorform
+
+// donorform
 func DonateBlood(c *gin.Context) {
 	var donorInput struct {
 		UserID       string `json:"userID"`

@@ -4,11 +4,12 @@ import (
 	"fmt"
 	"net/http"
 
-	"authorization/backend/initializers"
-	"authorization/backend/models"
+	"trial/initializers"
+	"trial/models"
+
+	"log"
 
 	"github.com/gin-gonic/gin"
-	"log"
 )
 
 func SignUp(c *gin.Context) {
@@ -40,7 +41,8 @@ func SignUp(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "User created successfully"})
 }
-//user login
+
+// user login
 func Login(c *gin.Context) {
 	var user models.User
 	var LoginInput struct {
@@ -61,9 +63,9 @@ func Login(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-        "message": "Login successful",
-        "userID": user.UserID,
-    })
+		"message": "Login successful",
+		"userID":  user.UserID,
+	})
 }
 
 func Satelitte(c *gin.Context) {
@@ -138,7 +140,6 @@ func Region(c *gin.Context) {
 		ContactPassword:   "satellite.ContactPassword",
 	}
 
-
 	if err := initializers.DB.Create(&regional).Error; err != nil {
 		log.Printf("Error creating regional record: %v", err)
 		c.JSON(http.StatusInternalServerError, gin.H{"message": "Could not create user"})
@@ -149,29 +150,29 @@ func Region(c *gin.Context) {
 }
 
 func GetUserDonations(c *gin.Context) {
-    userID := c.Param("userID")
-    
-    // Get user details
-    var user models.User
-    if err := initializers.DB.Where("user_id = ?", userID).First(&user).Error; err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch user"})
-        return
-    }
-    
-    // Get user's donations
-    var donations []models.Donor
-    if err := initializers.DB.Where("user_id = ?", userID).Find(&donations).Error; err != nil {
-        c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch donations"})
-        return
-    }
-    
-    // Return both user and donations data
-    c.JSON(http.StatusOK, gin.H{
-        "user": gin.H{
-            "firstName": user.FirstName,
-            "lastName": user.LastName,
-            "email": user.Email,
-        },
-        "donations": donations,
-    })
+	userID := c.Param("userID")
+
+	// Get user details
+	var user models.User
+	if err := initializers.DB.Where("user_id = ?", userID).First(&user).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch user"})
+		return
+	}
+
+	// Get user's donations
+	var donations []models.Donor
+	if err := initializers.DB.Where("user_id = ?", userID).Find(&donations).Error; err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch donations"})
+		return
+	}
+
+	// Return both user and donations data
+	c.JSON(http.StatusOK, gin.H{
+		"user": gin.H{
+			"firstName": user.FirstName,
+			"lastName":  user.LastName,
+			"email":     user.Email,
+		},
+		"donations": donations,
+	})
 }

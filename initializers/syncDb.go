@@ -2,8 +2,7 @@ package initializers
 
 import (
 	"log"
-
-	"authorization/backend/models"
+	"trial/models"
 )
 
 // initializers/syncDb.go
