@@ -19,14 +19,16 @@ func init() {
 
 func main() {
 	router := gin.Default()
+
+	// CORS configuration
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"https://safepulsefrontend.vercel.app/"},
+		AllowOrigins:     []string{"https://safepulsefrontend.vercel.app"}, // No trailing slash
 		AllowMethods:     []string{"POST", "GET", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept"},
 		AllowCredentials: true,
 	}))
 
-	// Define the /signin route
+	// Define routes
 	router.POST("/signup", controllers.SignUp)
 	router.POST("/login", controllers.Login)
 	router.POST("/satellite", controllers.Satelitte)
@@ -35,6 +37,6 @@ func main() {
 	router.GET("/region", controllers.Region)
 	router.GET("/donorPage/:userID", controllers.GetUserDonations)
 
-	// http.Handle("/", router)
-	router.Run(":3000")
+	// Start the server
+	router.Run(":3000") // Change this to the appropriate port if needed
 }
