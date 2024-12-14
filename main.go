@@ -22,7 +22,7 @@ func main() {
 
 	// CORS configuration
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"https://safepulsefrontend.vercel.app"}, // No trailing slash
+		AllowOrigins:     []string{"https://safepulsefrontend.vercel.app"}, // Your frontend URL
 		AllowMethods:     []string{"POST", "GET", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Accept"},
 		AllowCredentials: true,
@@ -38,5 +38,7 @@ func main() {
 	router.GET("/donorPage/:userID", controllers.GetUserDonations)
 
 	// Start the server
-	router.Run(":3000") // Change this to the appropriate port if needed
+	if err := router.Run(":3000"); err != nil {
+		log.Fatalf("Could not start server: %s\n", err)
+	}
 }
