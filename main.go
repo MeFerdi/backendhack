@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"authorization/backend/controllers"
-	"authorization/backend/initializers"
+	"trial/controllers"
+	"trial/initializers"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
